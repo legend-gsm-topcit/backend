@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @Builder
@@ -22,8 +23,15 @@ public class Room {
     private String currentDrawerName;
     private HashMap<String, Member> members;
     private String keyword;
+    private List<String> keywordBlackList;
 
     public void updateKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public void updateRoomOption(Long maxMemberCount, Long maxRoundCount, Level level) {
+        this.maxMemberCount = maxMemberCount;
+        this.maxRoundCount = maxRoundCount;
+        this.level = level;
     }
 }

@@ -1,0 +1,27 @@
+package com.example.cocoblue.service;
+
+import com.example.cocoblue.domain.Room;
+import com.example.cocoblue.dto.EditOption;
+import com.example.cocoblue.repository.RoomRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class EditRoomOptionService {
+
+    private final RoomRepository roomRepository;
+
+    public EditOption editRoomOption(UUID roomId, EditOption editOption) {
+        Room room = roomRepository.getRoom(roomId);
+        room.updateRoomOption(
+                editOption.maxMemberCount(),
+                editOption.maxRoundCount(),
+                editOption.level()
+        );
+
+        return editOption;
+    }
+}
