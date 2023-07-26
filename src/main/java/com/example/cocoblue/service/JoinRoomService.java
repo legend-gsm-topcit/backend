@@ -19,6 +19,11 @@ public class JoinRoomService {
 
     public JoinedMemberList joinRoom(UUID roomId, String name) {
         Room room = roomRepository.getRoom(roomId);
+
+        if(room.getMembers().containsKey(name)) {
+            // todo exception 처리하기
+        }
+
         Member member = Member.builder()
                 .name(name)
                 .score(0L)
