@@ -3,6 +3,7 @@ package com.example.cocoblue.controller;
 import com.example.cocoblue.dto.JoinedMemberList;
 import com.example.cocoblue.service.CreateRoomService;
 import com.example.cocoblue.service.JoinRoomService;
+import com.example.cocoblue.service.LeaveRoomService;
 import com.example.cocoblue.service.SetKeywordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -20,6 +21,7 @@ public class RoomController {
     private final CreateRoomService createRoomService;
     private final JoinRoomService joinRoomService;
     private final SetKeywordService setKeywordService;
+    private final LeaveRoomService leaveRoomService;
 
     @MessageMapping("/room/{roomId}/create")
     public void createRoom(
@@ -44,5 +46,14 @@ public class RoomController {
             @Payload String keyword
     ) {
         setKeywordService.setKeyword(roomId, keyword);
+    }
+
+    @MessageMapping("/room/{roomId}/leave")
+    @SendTo("/sub/room/{roomId}/memberList")
+    public JoinedMemberList leaveRoom(
+            @DestinationVariable UUID roomId,
+            @Payload String name
+    ) {
+        return leaveRoomService.leaveRoom(roomId, name);
     }
 }
