@@ -20,10 +20,12 @@ public class CreateRoomService {
         Room room = Room.builder()
                 .maxMemberCount(Room.MAX_MEMBER_COUNT)
                 .maxRoundCount(Room.MAX_ROUND_COUNT)
+                .roundCount(0L)
                 .level(Level.NORMAL)
                 .ownerName(name)
                 .currentDrawerName(null)
                 .members(new HashMap<>())
+                .keyword(null)
                 .build();
 
         Member member = Member.builder()

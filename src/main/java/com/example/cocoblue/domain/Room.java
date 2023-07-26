@@ -21,4 +21,9 @@ public class Room {
     private String ownerName;
     private String currentDrawerName;
     private HashMap<String, Member> members;
+    private String keyword;
+
+    public void updateKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 }
