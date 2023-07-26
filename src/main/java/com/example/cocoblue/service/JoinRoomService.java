@@ -26,8 +26,6 @@ public class JoinRoomService {
                 .build();
 
         room.getMembers().put(member.getName(), member);
-        roomRepository.setRoom(roomId, room);
-
         List<Member> memberList = new ArrayList<>(room.getMembers().values());
 
         return JoinedMemberList.builder()
