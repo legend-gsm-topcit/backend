@@ -3,15 +3,18 @@ package com.example.cocoblue.service;
 import com.example.cocoblue.domain.Level;
 import com.example.cocoblue.domain.Room;
 import com.example.cocoblue.domain.Member;
+import com.example.cocoblue.repository.RoomRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 @Service
-public class RoomService {
+@RequiredArgsConstructor
+public class CreateRoomService {
 
-    HashMap<UUID, Room> rooms = new HashMap<>();
+    private final RoomRepository roomRepository;
 
     public void createRoom(UUID roomId, String name) {
         Room room = Room.builder()
@@ -30,8 +33,6 @@ public class RoomService {
                 .build();
 
         room.getMembers().put(name, member);
-        rooms.put(roomId, room);
+        roomRepository.setRoom(roomId, room);
     }
-
-
 }
