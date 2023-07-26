@@ -14,8 +14,13 @@ public class EditRoomOptionService {
 
     private final RoomRepository roomRepository;
 
-    public EditOption editRoomOption(UUID roomId, EditOption editOption) {
+    public EditOption editRoomOption(UUID roomId, String name, EditOption editOption) {
         Room room = roomRepository.getRoom(roomId);
+
+        if (!name.equals(room.getOwnerName())) {
+            // todo exception 처리하기
+        }
+
         room.updateRoomOption(
                 editOption.maxMemberCount(),
                 editOption.maxRoundCount(),

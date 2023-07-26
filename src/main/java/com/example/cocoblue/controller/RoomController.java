@@ -58,12 +58,13 @@ public class RoomController {
         return leaveRoomService.leaveRoom(roomId, name);
     }
 
-    @MessageMapping("/room/{roomId}/option/edit")
+    @MessageMapping("/room/{roomId}/option/edit/{ownerName}")
     @SendTo("/sub/room/{roomId}/option")
     public EditOption editRoomOption(
             @DestinationVariable UUID roomId,
+            @DestinationVariable String name,
             @Payload EditOption editOption
     ) {
-        return editRoomOptionService.editRoomOption(roomId, editOption);
+        return editRoomOptionService.editRoomOption(roomId, name, editOption);
     }
 }
