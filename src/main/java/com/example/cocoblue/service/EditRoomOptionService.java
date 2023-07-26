@@ -17,6 +17,10 @@ public class EditRoomOptionService {
     public EditOption editRoomOption(UUID roomId, String name, EditOption editOption) {
         Room room = roomRepository.getRoom(roomId);
 
+        if (room.getRoundCount() == 0) {
+            // todo exception 처리하기
+        }
+
         if (!name.equals(room.getOwnerName())) {
             // todo exception 처리하기
         }
