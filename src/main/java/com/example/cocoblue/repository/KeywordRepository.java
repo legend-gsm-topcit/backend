@@ -27,4 +27,8 @@ public class KeywordRepository {
     public void storeUnionOfSets(String unionSetKey, String... sourceSetKeys) {
         setOperations.unionAndStore(List.of(sourceSetKeys), unionSetKey);
     }
+
+    public void remove(String roomId) {
+        redisTemplate.delete(roomId);
+    }
 }

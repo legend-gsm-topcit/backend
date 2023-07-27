@@ -18,4 +18,8 @@ public class RoomRepository {
     public void setRoom(UUID roomId, Room room) {
         rooms.put(roomId, room);
     }
+
+    public void deleteRoom(UUID roomId) {
+        rooms.remove(roomId);
+    }
 }
