@@ -27,6 +27,7 @@ public class RoomController {
     private final StartGameService startGameService;
     private final FindKeywordListService findKeywordListService;
     private final ChatService chatService;
+    private final NextDrawerService nextDrawerService;
 
     @MessageMapping("/room/{roomId}/create")
     public void createRoom(
@@ -106,5 +107,12 @@ public class RoomController {
             @Payload String message
     ) {
         return chatService.broadcastChat(roomId, memberName, message);
+    }
+
+    @MessageMapping("/room/{roomId}/next")
+    public void nextDrawer(
+            @DestinationVariable UUID roomId
+    ) {
+        nextDrawerService.nextDrawer(roomId);
     }
 }

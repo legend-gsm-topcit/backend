@@ -20,7 +20,7 @@ public class RoundManager {
     private final KeywordRepository keywordRepository;
     private final SimpMessageSendingOperations sendingOperations;
 
-    public void nextUser(UUID roomId, String name) {
+    public void nextDrawer(UUID roomId, String name) {
         Room room = roomRepository.getRoom(roomId);
 
         Member member = room.getMembers().get(name);

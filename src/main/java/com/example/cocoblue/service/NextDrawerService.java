@@ -2,24 +2,21 @@ package com.example.cocoblue.service;
 
 import com.example.cocoblue.domain.Room;
 import com.example.cocoblue.repository.RoomRepository;
+import com.example.cocoblue.util.RoundManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class SetKeywordService {
-
+public class NextDrawerService {
     private final RoomRepository roomRepository;
+    private final RoundManager roundManager;
 
-    public LocalDateTime setKeyword(UUID roomId, String keyword) {
+    public void nextDrawer(UUID roomId) {
         Room room = roomRepository.getRoom(roomId);
-        room.updateKeyword(keyword);
-        room.setDeadLine(LocalDateTime.now().plusMinutes(1));
 
-        return room.getDeadLine();
+        roundManager.nextDrawer(roomId, room.getCurrentDrawerName());
     }
 }

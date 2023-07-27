@@ -4,6 +4,7 @@ import com.example.cocoblue.domain.Member;
 import com.example.cocoblue.domain.Room;
 import com.example.cocoblue.repository.RoomRepository;
 import com.example.cocoblue.util.RoundManager;
+import com.example.cocoblue.util.ScoreBoardManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,15 @@ public class ChatService {
 
     private final RoomRepository roomRepository;
     private final RoundManager roundManager;
+    private final ScoreBoardManager scoreBoardManager;
 
-    public String broadcastChat(UUID roomID, String name, String message) {
-        Room room = roomRepository.getRoom(roomID);
+    public String broadcastChat(UUID roomId, String name, String message) {
+        Room room = roomRepository.getRoom(roomId);
         Member member = room.getMembers().get(name);
+
+        if(member.getName().equals(room.getOwnerName()) && message.equals("/게임 종료")) {
+            scoreBoardManager.broadcastScoreBoard(roomId, room);
+        }
 
         boolean answerMatches = message.equals(room.getKeyword());
         Duration timeLeft = Duration.between(room.getDeadLine(), LocalDateTime.now());
@@ -34,7 +40,7 @@ public class ChatService {
 
         boolean allMatches = room.getMembers().values().stream().allMatch(Member::isAnswerMatched);
         if (allMatches) {
-            roundManager.nextUser(roomID, room.getCurrentDrawerName());
+            roundManager.nextDrawer(roomId, room.getCurrentDrawerName());
             return createCorrectMessage(name, scoreToAdd) + "\n" + createAnswerMessage(room.getKeyword());
         }
 
