@@ -55,3 +55,17 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Deploy Docker image from EC2 Server
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_KEY }}
+        port: ${{ secrets.EC2_SSH_PORT }}
+        script: |
+          docker stop backend
+          docker rm backend
+          docker images rmi oneeonly/topcit:latest
+          docker pull oneeonly/topcit:latest
+          docker run --name backend -p 80:8080 -d oneeonly/topcit
+
