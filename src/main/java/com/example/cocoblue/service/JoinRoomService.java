@@ -20,7 +20,7 @@ public class JoinRoomService {
     private final RoomRepository roomRepository;
 
     public JoinedMemberList joinRoom(UUID roomId, String name) {
-        log.info(roomId.toString(), name);
+        log.info("at joinRoom " + roomId.toString() + name);
         Room room = roomRepository.getRoom(roomId);
 
         if(room.getMembers().containsKey(name)) {
@@ -37,7 +37,7 @@ public class JoinRoomService {
         room.getMembers().put(member.getName(), member);
         List<Member> memberList = new ArrayList<>(room.getMembers().values());
 
-        log.info(memberList.get(0).getName());
+        log.info("at joinRoom " + memberList.get(0).getName());
 
         return JoinedMemberList.builder()
                 .ownerName(room.getOwnerName())

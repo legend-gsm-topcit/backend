@@ -37,7 +37,7 @@ public class CreateRoomService {
                 .hasDrawn(false)
                 .build();
 
-        log.info(roomId.toString(), name);
+        log.info("at createRoom " + roomId.toString() + name);
 
         room.getMembers().put(name, member);
         roomRepository.setRoom(roomId, room);

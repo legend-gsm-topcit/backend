@@ -6,12 +6,14 @@ import com.example.cocoblue.dto.GameStatus;
 import com.example.cocoblue.repository.KeywordRepository;
 import com.example.cocoblue.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class StartGameService {
 
@@ -20,6 +22,7 @@ public class StartGameService {
 
     public GameStatus startGame(UUID roomId, String name) {
         Room room = roomRepository.getRoom(roomId);
+        log.info("at startGame " + roomId + name + room.getCurrentDrawerName());
 
         if (!name.equals(room.getOwnerName())) {
             // todo exception 처리하기
@@ -38,6 +41,8 @@ public class StartGameService {
                 .findAny();
         String nextDrawerName = nextDrawer.map(Member::getName).orElse(null);
         room.setNextDrawer(nextDrawerName);
+
+        log.info("at startGame " + room.getCurrentDrawerName());
 
         return GameStatus.builder()
                 .roundCount(room.getRoundCount())
