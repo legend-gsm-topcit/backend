@@ -6,6 +6,7 @@ import com.example.cocoblue.repository.RoomRepository;
 import com.example.cocoblue.util.RoundManager;
 import com.example.cocoblue.util.ScoreBoardManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ChatService {
 
@@ -21,6 +23,9 @@ public class ChatService {
     private final ScoreBoardManager scoreBoardManager;
 
     public String broadcastChat(UUID roomId, String name, String message) {
+
+        log.info("at broadcastChat " + roomId + name + " " + message);
+
         Room room = roomRepository.getRoom(roomId);
         Member member = room.getMembers().get(name);
 
@@ -29,6 +34,8 @@ public class ChatService {
         }
 
         boolean answerMatches = message.equals(room.getKeyword());
+        log.info("at broadcastChat " + Boolean.toString(answerMatches));
+
         Duration timeLeft = Duration.between(room.getDeadLine(), LocalDateTime.now());
         if (!answerMatches || timeLeft.isNegative() || member.isAnswerMatched()) {
             return createChatMessage(name, message);
@@ -39,6 +46,7 @@ public class ChatService {
         member.updateAnswerMatched(true);
 
         boolean allMatches = room.getMembers().values().stream().allMatch(Member::isAnswerMatched);
+        log.info("at broadcastChat " + Boolean.toString(allMatches));
         if (allMatches) {
             roundManager.nextDrawer(roomId, room.getCurrentDrawerName());
             return createCorrectMessage(name, scoreToAdd) + "\n" + createAnswerMessage(room.getKeyword());
