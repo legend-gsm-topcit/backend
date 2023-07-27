@@ -34,4 +34,8 @@ public class Room {
         this.maxRoundCount = maxRoundCount;
         this.level = level;
     }
+
+    public void increaseRoundCount() {
+        this.roundCount++;
+    }
 }

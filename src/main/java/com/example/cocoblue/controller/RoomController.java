@@ -1,6 +1,5 @@
 package com.example.cocoblue.controller;
 
-import com.example.cocoblue.domain.Room;
 import com.example.cocoblue.dto.EditOption;
 import com.example.cocoblue.dto.JoinedMemberList;
 import com.example.cocoblue.service.*;
@@ -11,7 +10,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -23,6 +21,7 @@ public class RoomController {
     private final SetKeywordService setKeywordService;
     private final LeaveRoomService leaveRoomService;
     private final EditRoomOptionService editRoomOptionService;
+    private final StartGameService startGameService;
 
     @MessageMapping("/room/{roomId}/create")
     public void createRoom(
@@ -66,5 +65,14 @@ public class RoomController {
             @Payload EditOption editOption
     ) {
         return editRoomOptionService.editRoomOption(roomId, name, editOption);
+    }
+
+    @MessageMapping("/room/{roomId}/start")
+    @SendTo("/sub/room/{roomId}/start")
+    public boolean startGame(
+            @DestinationVariable UUID roomId,
+            @Payload String name
+    ) {
+        return startGameService.startGame(roomId, name);
     }
 }
