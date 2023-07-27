@@ -11,6 +11,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,11 +46,12 @@ public class RoomController {
     }
 
     @MessageMapping("/room/{roomId}/keyword")
-    public void setKeyword(
+    @SendTo("/sub/room/{roomId}/deadline")
+    public LocalDateTime setKeyword(
             @DestinationVariable UUID roomId,
             @Payload String keyword
     ) {
-        setKeywordService.setKeyword(roomId, keyword);
+        return setKeywordService.setKeyword(roomId, keyword);
     }
 
     @MessageMapping("/room/{roomId}/leave")
