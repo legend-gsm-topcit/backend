@@ -20,7 +20,7 @@ public class KeywordRepository {
         this.setOperations = redisTemplate.opsForSet();
     }
 
-    private List<String> popRandomMemberFromSet(String key) {
+    public List<String> popRandomMemberFromSet(String key) {
         return setOperations.pop(key, 4L);
     }
 }

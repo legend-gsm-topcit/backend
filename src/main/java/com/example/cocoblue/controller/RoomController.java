@@ -11,6 +11,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -24,6 +25,7 @@ public class RoomController {
     private final EditRoomOptionService editRoomOptionService;
     private final StartGameService startGameService;
     private final CountRoundService countRoundService;
+    private final FindKeywordListService findKeywordListService;
 
     @MessageMapping("/room/{roomId}/create")
     public void createRoom(
@@ -87,5 +89,11 @@ public class RoomController {
         return countRoundService.countRound(roomId, name);
     }
 
-
+    @MessageMapping("/room/{roomId}/keywordList")
+    @SendTo("/sub/room/{roomId}/keywordList")
+    public List<String> findKeywordList(
+            @DestinationVariable UUID roomId
+    ) {
+        return findKeywordListService.findKeywordList(roomId);
+    }
 }
