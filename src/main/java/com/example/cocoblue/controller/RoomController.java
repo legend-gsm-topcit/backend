@@ -65,7 +65,7 @@ public class RoomController {
         return leaveRoomService.leaveRoom(roomId, name);
     }
 
-    @MessageMapping("/room/{roomId}/option/edit/{ownerName}")
+    @MessageMapping("/room/{roomId}/option/edit/{name}")
     @SendTo("/sub/room/{roomId}/option")
     public EditOption editRoomOption(
             @DestinationVariable UUID roomId,
