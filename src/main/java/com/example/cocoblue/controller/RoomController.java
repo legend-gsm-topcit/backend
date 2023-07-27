@@ -96,4 +96,12 @@ public class RoomController {
     ) {
         return findKeywordListService.findKeywordList(roomId);
     }
+
+    @MessageMapping("/room/{roomId}/draw")
+    @SendTo("/sub/room/{roomId}/draw")
+    public String broadcastDrawing(
+            @Payload String picture
+    ) {
+        return picture;
+    }
 }
