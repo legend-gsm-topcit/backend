@@ -3,13 +3,14 @@ package com.example.cocoblue.service;
 import com.example.cocoblue.domain.Level;
 import com.example.cocoblue.domain.Room;
 import com.example.cocoblue.domain.Member;
+import com.example.cocoblue.dto.JoinedMemberList;
 import com.example.cocoblue.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -18,9 +19,8 @@ import java.util.UUID;
 public class CreateRoomService {
 
     private final RoomRepository roomRepository;
-    private final SimpMessageSendingOperations sendingOperations;
 
-    public void createRoom(UUID roomId, String name) {
+    public JoinedMemberList createRoom(UUID roomId, String name) {
         Room room = Room.builder()
                 .maxMemberCount(Room.MAX_MEMBER_COUNT)
                 .maxRoundCount(Room.MAX_ROUND_COUNT)
@@ -44,6 +44,9 @@ public class CreateRoomService {
         room.getMembers().put(name, member);
         roomRepository.setRoom(roomId, room);
 
-        sendingOperations.convertAndSend("/sub/test", "hi?");
+        return JoinedMemberList.builder()
+                .ownerName(room.getOwnerName())
+                .memberList((List.of(member)))
+                .build();
     }
 }

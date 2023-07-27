@@ -30,11 +30,12 @@ public class RoomController {
     private final NextDrawerService nextDrawerService;
 
     @MessageMapping("/room/{roomId}/create")
-    public void createRoom(
+    @SendTo("/sub/room/{roomId}/memberList")
+    public JoinedMemberList createRoom(
             @DestinationVariable UUID roomId,
             @Payload String name
     ) {
-        createRoomService.createRoom(roomId, name);
+        return createRoomService.createRoom(roomId, name);
     }
 
     @MessageMapping("/room/{roomId}/join")
