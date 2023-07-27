@@ -31,7 +31,7 @@ public class StartGameService {
             // todo: do something
         }
 
-        keywordRepository.storeUnionOfSets(roomId.toString(), room.getLevel().name());
+//        keywordRepository.storeUnionOfSets(roomId.toString(), room.getLevel().name());
 
         room.increaseRoundCount();
 
