@@ -28,10 +28,23 @@ jobs:
       with:
         java-version: '17'
         distribution: 'oracle'
+    
+    - name: Create application.yml
+      run: |
+        echo "mkdir resources"
+        mkdir -p ./src/main/resources 
+        touch ./src/main/resources/application.yml
+
+        echo "now filling up the application.yml"
+        echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+
+        cat ./src/main/resources/application.yml
+
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: clean build
+
     - name: Build and push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with: 
