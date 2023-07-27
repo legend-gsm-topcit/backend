@@ -1,0 +1,7 @@
+FROM openjdk:17-oracle
+
+EXPOSE 8080
+
+ADD build/libs/topcit.jar topcit.jar
+
+ENTRYPOINT [ "java", "-jar", "/topcit.jar" ]
