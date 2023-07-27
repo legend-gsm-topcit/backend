@@ -1,23 +1,24 @@
 package com.example.cocoblue.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
-@RequiredArgsConstructor
+@Service
 public class KeywordRepository {
 
     private final RedisTemplate<String, String> redisTemplate;
     private final SetOperations<String, String> setOperations;
 
-//    public RedisService(RedisTemplate<String, String> redisTemplate) {
-//        this.redisTemplate = redisTemplate;
-//        this.setOperations = redisTemplate.opsForSet();
-//    }
+    @Autowired
+    public KeywordRepository(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+        this.setOperations = redisTemplate.opsForSet();
+    }
 
     private List<String> popRandomMemberFromSet(String key) {
         return setOperations.pop(key, 4L);
