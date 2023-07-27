@@ -5,12 +5,14 @@ import com.example.cocoblue.domain.Room;
 import com.example.cocoblue.domain.Member;
 import com.example.cocoblue.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CreateRoomService {
 
@@ -34,6 +36,8 @@ public class CreateRoomService {
                 .answerMatched(false)
                 .hasDrawn(false)
                 .build();
+
+        log.info(roomId.toString(), name);
 
         room.getMembers().put(name, member);
         roomRepository.setRoom(roomId, room);
