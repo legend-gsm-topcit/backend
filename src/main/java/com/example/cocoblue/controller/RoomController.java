@@ -71,7 +71,7 @@ public class RoomController {
 
     @MessageMapping("/room/{roomId}/start")
     @SendTo("/sub/room/{roomId}/start")
-    public boolean startGame(
+    public GameStatus startGame(
             @DestinationVariable UUID roomId,
             @Payload String name
     ) {
