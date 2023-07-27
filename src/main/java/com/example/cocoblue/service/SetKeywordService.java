@@ -5,6 +5,7 @@ import com.example.cocoblue.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -16,5 +17,7 @@ public class SetKeywordService {
     public void setKeyword(UUID roomId, String keyword) {
         Room room = roomRepository.getRoom(roomId);
         room.updateKeyword(keyword);
+        room.setDeadLine(LocalDateTime.now().plusMinutes(1));
+        // todo: might have to return deadLine
     }
 }

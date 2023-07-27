@@ -27,6 +27,7 @@ public class JoinRoomService {
         Member member = Member.builder()
                 .name(name)
                 .score(0L)
+                .answerMatched(false)
                 .hasDrawn(false)
                 .build();
 

@@ -24,8 +24,8 @@ public class RoomController {
     private final LeaveRoomService leaveRoomService;
     private final EditRoomOptionService editRoomOptionService;
     private final StartGameService startGameService;
-    private final CountRoundService countRoundService;
     private final FindKeywordListService findKeywordListService;
+    private final ChatService chatService;
 
     @MessageMapping("/room/{roomId}/create")
     public void createRoom(
@@ -80,15 +80,6 @@ public class RoomController {
         return startGameService.startGame(roomId, name);
     }
 
-    @MessageMapping("/room/{roomId}/round/count")
-    @SendTo("/sub/room/{roomId}/round")
-    public GameStatus countRound(
-            @DestinationVariable UUID roomId,
-            @Payload String name
-    ) {
-        return countRoundService.countRound(roomId, name);
-    }
-
     @MessageMapping("/room/{roomId}/keywordList")
     @SendTo("/sub/room/{roomId}/keywordList")
     public List<String> findKeywordList(
@@ -103,5 +94,15 @@ public class RoomController {
             @Payload String picture
     ) {
         return picture;
+    }
+
+    @MessageMapping("/room/{roomId}/chat/{memberName}")
+    @SendTo("/sub/room/{roomId}/chat")
+    public String broadcastChatting(
+            @DestinationVariable UUID roomId,
+            @DestinationVariable String memberName,
+            @Payload String message
+    ) {
+        return chatService.broadcastChat(roomId, memberName, message);
     }
 }

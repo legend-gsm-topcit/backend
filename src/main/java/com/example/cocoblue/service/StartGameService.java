@@ -24,6 +24,9 @@ public class StartGameService {
         if (!name.equals(room.getOwnerName())) {
             // todo exception 처리하기
         }
+        if (room.getMembers().size() < Room.MIN_MEMBER_COUNT) {
+            // todo: do something
+        }
 
         keywordRepository.storeUnionOfSets(roomId.toString(), room.getLevel().name());
 
@@ -34,6 +37,7 @@ public class StartGameService {
                 .filter(drawer -> !drawer.isHasDrawn())
                 .findAny();
         String nextDrawerName = nextDrawer.map(Member::getName).orElse(null);
+        room.setNextDrawer(nextDrawerName);
 
         return GameStatus.builder()
                 .roundCount(room.getRoundCount())
