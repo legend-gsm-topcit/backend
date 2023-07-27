@@ -12,4 +12,8 @@ public class Member {
     private String name;
     private Long score;
     private boolean hasDrawn;
+
+    public void updateHasDrawn(boolean hasDrawn) {
+        this.hasDrawn = hasDrawn;
+    }
 }

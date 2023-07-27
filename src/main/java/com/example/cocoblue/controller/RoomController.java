@@ -1,6 +1,7 @@
 package com.example.cocoblue.controller;
 
 import com.example.cocoblue.dto.EditOption;
+import com.example.cocoblue.dto.GameStatus;
 import com.example.cocoblue.dto.JoinedMemberList;
 import com.example.cocoblue.service.*;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class RoomController {
     private final LeaveRoomService leaveRoomService;
     private final EditRoomOptionService editRoomOptionService;
     private final StartGameService startGameService;
+    private final CountRoundService countRoundService;
 
     @MessageMapping("/room/{roomId}/create")
     public void createRoom(
@@ -74,5 +76,14 @@ public class RoomController {
             @Payload String name
     ) {
         return startGameService.startGame(roomId, name);
+    }
+
+    @MessageMapping("/room/{roomId}/round/count")
+    @SendTo("/sub/room/{roomId}/round")
+    public GameStatus countRound(
+            @DestinationVariable UUID roomId,
+            @Payload String name
+    ) {
+        return countRoundService.countRound(roomId, name);
     }
 }
