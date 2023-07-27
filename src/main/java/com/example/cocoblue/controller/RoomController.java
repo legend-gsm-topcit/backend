@@ -1,10 +1,8 @@
 package com.example.cocoblue.controller;
 
+import com.example.cocoblue.dto.EditOption;
 import com.example.cocoblue.dto.JoinedMemberList;
-import com.example.cocoblue.service.CreateRoomService;
-import com.example.cocoblue.service.JoinRoomService;
-import com.example.cocoblue.service.LeaveRoomService;
-import com.example.cocoblue.service.SetKeywordService;
+import com.example.cocoblue.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -22,6 +20,8 @@ public class RoomController {
     private final JoinRoomService joinRoomService;
     private final SetKeywordService setKeywordService;
     private final LeaveRoomService leaveRoomService;
+    private final EditRoomOptionService editRoomOptionService;
+    private final StartGameService startGameService;
 
     @MessageMapping("/room/{roomId}/create")
     public void createRoom(
@@ -55,5 +55,24 @@ public class RoomController {
             @Payload String name
     ) {
         return leaveRoomService.leaveRoom(roomId, name);
+    }
+
+    @MessageMapping("/room/{roomId}/option/edit/{ownerName}")
+    @SendTo("/sub/room/{roomId}/option")
+    public EditOption editRoomOption(
+            @DestinationVariable UUID roomId,
+            @DestinationVariable String name,
+            @Payload EditOption editOption
+    ) {
+        return editRoomOptionService.editRoomOption(roomId, name, editOption);
+    }
+
+    @MessageMapping("/room/{roomId}/start")
+    @SendTo("/sub/room/{roomId}/start")
+    public boolean startGame(
+            @DestinationVariable UUID roomId,
+            @Payload String name
+    ) {
+        return startGameService.startGame(roomId, name);
     }
 }
