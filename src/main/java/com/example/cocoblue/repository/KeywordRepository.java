@@ -23,4 +23,8 @@ public class KeywordRepository {
     public List<String> popRandomMemberFromSet(String key) {
         return setOperations.pop(key, 4L);
     }
+
+    public void storeUnionOfSets(String unionSetKey, String... sourceSetKeys) {
+        setOperations.unionAndStore(List.of(sourceSetKeys), unionSetKey);
+    }
 }

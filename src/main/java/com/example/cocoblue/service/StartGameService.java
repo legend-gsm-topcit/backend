@@ -3,6 +3,7 @@ package com.example.cocoblue.service;
 import com.example.cocoblue.domain.Member;
 import com.example.cocoblue.domain.Room;
 import com.example.cocoblue.dto.GameStatus;
+import com.example.cocoblue.repository.KeywordRepository;
 import com.example.cocoblue.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class StartGameService {
 
     private final RoomRepository roomRepository;
+    private final KeywordRepository keywordRepository;
 
     public GameStatus startGame(UUID roomId, String name) {
         Room room = roomRepository.getRoom(roomId);
@@ -22,6 +24,8 @@ public class StartGameService {
         if (!name.equals(room.getOwnerName())) {
             // todo exception 처리하기
         }
+
+        keywordRepository.storeUnionOfSets(roomId.toString(), room.getLevel().name());
 
         room.increaseRoundCount();
 
