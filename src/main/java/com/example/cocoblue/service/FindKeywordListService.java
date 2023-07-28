@@ -28,6 +28,6 @@ public class FindKeywordListService {
 
         log.info("at findKeywordList " + keywordList.get(0) + keywordList.get(1) + keywordList.get(2) + keywordList.get(3));
 
-        return keywordRepository.popRandomMemberFromSet(roomId.toString());
+        return keywordList;
     }
 }
