@@ -99,7 +99,6 @@ public class RoomController {
     public String broadcastDrawing(
             @Payload String picture
     ) {
-        log.info("at broadcastDrawing " + picture);
         return picture;
     }
 
