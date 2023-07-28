@@ -67,5 +67,5 @@ jobs:
           docker rm backend
           docker rmi oneeonly/topcit:latest
           docker pull oneeonly/topcit:latest
-          docker run --name backend -p 80:8080 -d oneeonly/topcit
+          docker run --name backend -p 80:8080 -d --network jeff_network oneeonly/topcit
 
