@@ -5,6 +5,7 @@ import com.example.cocoblue.dto.GameStatus;
 import com.example.cocoblue.dto.JoinedMemberList;
 import com.example.cocoblue.service.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 public class RoomController {
 
@@ -97,6 +99,7 @@ public class RoomController {
     public String broadcastDrawing(
             @Payload String picture
     ) {
+        log.info("at broadcastDrawing " + picture);
         return picture;
     }
 
