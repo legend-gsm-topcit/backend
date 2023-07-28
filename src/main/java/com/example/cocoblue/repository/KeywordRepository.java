@@ -21,8 +21,7 @@ public class KeywordRepository {
     }
 
     public List<String> popRandomMemberFromSet(String key) {
-        return List.of("사과", "오렌지", "포도", "수박");
-//        return setOperations.pop(key, 4L);
+        return setOperations.pop(key, 4L);
     }
 
     public void storeUnionOfSets(String unionSetKey, String... sourceSetKeys) {
